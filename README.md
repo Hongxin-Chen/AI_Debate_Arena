@@ -69,24 +69,6 @@ streamlit run app.py
 
 填写辩题、正反方立场，点击「🚀 开始辩论」即可观看 AI 的精彩交锋！
 
-### 🤖 支持的 AI 供应商
-
-| 供应商 | 格式 | 推荐模型 |
-|--------|------|----------|
-| OpenAI（ChatGPT） | OpenAI | gpt-4, gpt-4-turbo |
-| Anthropic（Claude） | Anthropic | claude-3-opus, claude-3-sonnet |
-| Google（Gemini） | Google | gemini-pro, gemini-1.5-pro |
-| Kimi（月之暗面） | OpenAI | kimi-k2.5, moonshot-v1-32k |
-| DeepSeek（深度求索） | OpenAI | deepseek-chat, deepseek-coder |
-| Azure OpenAI（微软云） | Azure | 你的部署模型 |
-| Groq（超高速推理） | OpenAI | llama2-70b, mixtral-8x7b |
-| Cohere（Command R） | Cohere | command-r-plus |
-| Ollama（本地部署） | OpenAI | llama2, mistral |
-| OpenRouter（多模型聚合） | OpenAI | 任意模型 |
-| 硅基流动（SiliconFlow） | OpenAI | Qwen2.5-72B-Instruct |
-| 智谱 AI（GLM） | OpenAI | glm-4 |
-| 百川智能（Baichuan） | OpenAI | Baichuan4 |
-| 自定义 API | OpenAI | 任意 OpenAI 兼容 |
 
 ### 🎭 辩论流程
 
@@ -179,24 +161,6 @@ In the sidebar, configure each of the three Agents (Affirmative, Negative, Judge
 
 Enter your debate topic and stances, click "🚀 Start Debate", and watch the AI clash!
 
-### 🤖 Supported AI Providers
-
-| Provider | Format | Recommended Models |
-|----------|--------|--------------------|
-| OpenAI (ChatGPT) | OpenAI | gpt-4, gpt-4-turbo |
-| Anthropic (Claude) | Anthropic | claude-3-opus, claude-3-sonnet |
-| Google (Gemini) | Google | gemini-pro, gemini-1.5-pro |
-| Kimi (Moonshot) | OpenAI | kimi-k2.5, moonshot-v1-32k |
-| DeepSeek | OpenAI | deepseek-chat, deepseek-coder |
-| Azure OpenAI | Azure | Your deployed model |
-| Groq | OpenAI | llama2-70b, mixtral-8x7b |
-| Cohere | Cohere | command-r-plus |
-| Ollama (Local) | OpenAI | llama2, mistral |
-| OpenRouter | OpenAI | Any model |
-| SiliconFlow | OpenAI | Qwen2.5-72B-Instruct |
-| Zhipu AI (GLM) | OpenAI | glm-4 |
-| Baichuan | OpenAI | Baichuan4 |
-| Custom API | OpenAI | Any OpenAI-compatible |
 
 ### 🎭 Debate Flow
 
