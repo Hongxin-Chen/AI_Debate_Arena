@@ -1032,6 +1032,73 @@ def sidebar_config():
 
 
 
+def display_saved_debate():
+    """在页面重新渲染时，从 session_state 中恢复并显示已完成的辩论记录"""
+    rounds = st.session_state.get('debate_rounds', [])
+    judge_result = st.session_state.get('debate_judge_result', {})
+    pos_display = st.session_state.get('debate_pos_display', '')
+    neg_display = st.session_state.get('debate_neg_display', '')
+    judge_display = st.session_state.get('debate_judge_display', '')
+
+    st.markdown(f'<div class="sub-header">{T("debate_process")}</div>', unsafe_allow_html=True)
+
+    for i, (pos_speech, neg_speech) in enumerate(rounds, 1):
+        st.markdown(T("round_title", n=i))
+
+        st.markdown('<div class="positive-box">', unsafe_allow_html=True)
+        st.markdown(f"{T('pos_speech_label')} *({pos_display})*")
+        st.markdown(pos_speech)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        st.markdown('<div class="negative-box">', unsafe_allow_html=True)
+        st.markdown(f"{T('neg_speech_label')} *({neg_display})*")
+        st.markdown(neg_speech)
+        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown("---")
+
+    # 裁判结果
+    st.markdown(f'<div class="sub-header">{T("judge_verdict")}</div>', unsafe_allow_html=True)
+    st.caption(f"{T('judge_ai_label')}: {judge_display}")
+
+    st.markdown(T("score_title"))
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.metric(T("pos_total_score"), judge_result.get("positive_score", 0))
+    with col2:
+        st.metric(T("neg_total_score"), judge_result.get("negative_score", 0))
+
+    dims = TL("dims")
+    score_data = {
+        T("dim_col"): dims,
+        T("pos_col"): [judge_result.get("positive_breakdown", {}).get(d, 0) for d in dims],
+        T("neg_col"): [judge_result.get("negative_breakdown", {}).get(d, 0) for d in dims]
+    }
+    st.dataframe(score_data, use_container_width=True, hide_index=True)
+
+    st.markdown(T("winner_title"))
+    st.markdown(f'<div class="winner-text">🎉 {judge_result.get("winner", T("winner_tbd"))} 🎉</div>', unsafe_allow_html=True)
+
+    st.markdown('<div class="judge-box">', unsafe_allow_html=True)
+    st.markdown(T("comment_title"))
+    st.markdown(judge_result.get("comment", T("no_comment")))
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.success(T("debate_done"))
+
+    # 下载按钮
+    md_content = st.session_state.get('debate_md_content', '')
+    filename = st.session_state.get('debate_filename', 'debate.md')
+
+    st.download_button(
+        label=T("download_label"),
+        data=md_content,
+        file_name=filename,
+        mime="text/markdown",
+        use_container_width=True
+    )
+
+
 def main():
     """主函数"""
     # 初始化语言
@@ -1104,7 +1171,11 @@ def main():
     # 开始辩论按钮
     st.markdown("---")
     if st.button(T("start_button"), type="primary", use_container_width=True):
+        # 清除之前的辩论记录
+        st.session_state.debate_completed = False
         run_debate(topic, stance_positive, stance_negative, max_rounds, word_count, pos_api, neg_api, judge_api, pos_desc, neg_desc, judge_desc)
+    elif st.session_state.get('debate_completed'):
+        display_saved_debate()
 
 
 def run_debate(topic, stance_pos, stance_neg, max_rounds, word_count, pos_api, neg_api, judge_api, pos_desc="", neg_desc="", judge_desc=""):
@@ -1284,6 +1355,15 @@ def run_debate(topic, stance_pos, stance_neg, max_rounds, word_count, pos_api, n
     # 下载按钮
     safe_topic = re.sub(r'[^\w\s-]', '', topic)[:20].strip().replace(' ', '_')
     filename = f"debate_{safe_topic}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+    
+    # 保存辩论结果到 session_state，以便页面重新渲染时恢复
+    st.session_state.debate_completed = True
+    st.session_state.debate_pos_display = f"{pos_provider_name} - {pos_api.model}"
+    st.session_state.debate_neg_display = f"{neg_provider_name} - {neg_api.model}"
+    st.session_state.debate_judge_display = f"{judge_provider_name} - {judge_api.model}"
+    st.session_state.debate_judge_result = judge_result
+    st.session_state.debate_md_content = md_content
+    st.session_state.debate_filename = filename
     
     st.download_button(
         label=T("download_label"),
