@@ -9,8 +9,9 @@
 [![Streamlit](https://img.shields.io/badge/Built%20with-Streamlit-ff4b4b?logo=streamlit)](https://streamlit.io)
 [![Python](https://img.shields.io/badge/Python-3.8+-blue?logo=python)](https://python.org)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-debatebtai-ff4b4b?logo=streamlit)](https://debatebtai.streamlit.app/)
 
-[中文](#中文) | [English](#english)
+[中文](#中文) | [English](#english) | [🚀 在线体验 Live Demo](https://debatebtai.streamlit.app/)
 
 <img src="https://img.shields.io/badge/AI%20Providers-14+-orange" alt="providers">
 
