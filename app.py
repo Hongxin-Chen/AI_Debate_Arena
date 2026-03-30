@@ -122,7 +122,7 @@ AI_PROVIDERS = {
 
 # 页面配置
 st.set_page_config(
-    page_title="AI 辩论赛",
+    page_title="AI Debate Arena",
     page_icon="🏛️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -382,7 +382,7 @@ I18N = {
         "dim_col": "Dimension",
         "pos_col": "Affirmative",
         "neg_col": "Negative",
-        "dims": ["论点清晰度", "逻辑严密性", "攻防能力", "综合表现"],
+        "dims": ["Argument Clarity", "Logical Rigor", "Offense & Defense", "Overall Performance"],
         "winner_title": "### 🏆 Winner",
         "winner_tbd": "TBD",
         "comment_title": "### 📝 Detailed Commentary",
@@ -440,8 +440,30 @@ class APIConfig:
 
 def get_positive_prompt(topic: str, stance: str, word_count: int, description: str = "") -> str:
     """获取正方系统提示词"""
-    desc_section = f"\n\n角色设定：{description}" if description else ""
-    return f"""你是正方辩手，正在参加一场关于"{topic}"的辩论赛。{desc_section}
+    lang = st.session_state.get("lang", "zh")
+    if lang == "en":
+        desc_section = f"\n\nRole description: {description}" if description else ""
+        return f"""You are the affirmative debater in a debate on "{topic}".{desc_section}
+
+Your stance: {stance}
+
+Debate style requirements:
+1. **Firmly defend your stance**: Regardless of challenges, argue your position from every angle
+2. **Sharp offense**: Keenly identify logical fallacies, factual errors, and overgeneralizations in your opponent's arguments, and counter forcefully
+3. **Rigorous logic**: Build clear logical chains with strong supporting evidence
+4. **Powerful language**: Use forceful yet measured language that demonstrates debating excellence
+5. **Balanced offense and defense**: Defend your own points while actively targeting your opponent's weaknesses
+
+Debate rules:
+- In each round, you may first rebut your opponent's points, then elaborate/reinforce your own arguments
+- Listen carefully to your opponent and address their specific points
+- Never concede any weakness in your position — argue vigorously
+- Keep each speech around {word_count} words
+
+Debate as a professional debater. Output ONLY your speech content — no prefixes or meta-commentary. Begin your argument directly."""
+    else:
+        desc_section = f"\n\n角色设定：{description}" if description else ""
+        return f"""你是正方辩手，正在参加一场关于"{topic}"的辩论赛。{desc_section}
 
 你的立场：{stance}
 
@@ -463,8 +485,30 @@ def get_positive_prompt(topic: str, stance: str, word_count: int, description: s
 
 def get_negative_prompt(topic: str, stance: str, word_count: int, description: str = "") -> str:
     """获取反方系统提示词"""
-    desc_section = f"\n\n角色设定：{description}" if description else ""
-    return f"""你是反方辩手，正在参加一场关于"{topic}"的辩论赛。{desc_section}
+    lang = st.session_state.get("lang", "zh")
+    if lang == "en":
+        desc_section = f"\n\nRole description: {description}" if description else ""
+        return f"""You are the negative debater in a debate on "{topic}".{desc_section}
+
+Your stance: {stance}
+
+Debate style requirements:
+1. **Firmly defend your stance**: Regardless of challenges, argue your position from every angle
+2. **Sharp offense**: Keenly identify logical fallacies, factual errors, and overgeneralizations in your opponent's arguments, and counter forcefully
+3. **Rigorous logic**: Build clear logical chains with strong supporting evidence
+4. **Powerful language**: Use forceful yet measured language that demonstrates debating excellence
+5. **Balanced offense and defense**: Defend your own points while actively targeting your opponent's weaknesses
+
+Debate rules:
+- In each round, you may first rebut your opponent's points, then elaborate/reinforce your own arguments
+- Listen carefully to your opponent and address their specific points
+- Never concede any weakness in your position — argue vigorously
+- Keep each speech around {word_count} words
+
+Debate as a professional debater. Output ONLY your speech content — no prefixes or meta-commentary. Begin your argument directly."""
+    else:
+        desc_section = f"\n\n角色设定：{description}" if description else ""
+        return f"""你是反方辩手，正在参加一场关于"{topic}"的辩论赛。{desc_section}
 
 你的立场：{stance}
 
@@ -486,8 +530,52 @@ def get_negative_prompt(topic: str, stance: str, word_count: int, description: s
 
 def get_judge_prompt(topic: str, stance_pos: str, stance_neg: str, description: str = "") -> str:
     """获取裁判系统提示词"""
-    desc_section = f"\n\n角色设定：{description}" if description else ""
-    return f"""你是本场辩论赛的裁判兼主持人，负责进行专业评判。{desc_section}
+    lang = st.session_state.get("lang", "zh")
+    if lang == "en":
+        desc_section = f"\n\nRole description: {description}" if description else ""
+        return f"""You are the judge and moderator of this debate, responsible for professional evaluation.{desc_section}
+
+Topic: {topic}
+Affirmative stance: {stance_pos}
+Negative stance: {stance_neg}
+
+Scoring criteria (25 points each, 100 total):
+
+1. **Argument Clarity** (25 pts): Is the stance clear? Is the argument structure coherent? Is expression accurate?
+2. **Logical Rigor** (25 pts): Are there logical gaps? Is reasoning sound? Do causal relationships hold?
+3. **Offense & Defense** (25 pts): Are attacks effective? Is defense solid? Are rebuttals forceful?
+4. **Overall Performance** (25 pts): Richness and credibility of evidence, persuasiveness and eloquence of language
+
+Judging requirements:
+- Be fair and objective — do not favor either side
+- Provide detailed commentary on both sides, noting strengths and weaknesses
+- Give specific scores and a clear winner
+- Use professional, balanced language
+
+Output format (must strictly follow this JSON format):
+{{
+  "positive_score": 85,
+  "negative_score": 82,
+  "positive_breakdown": {{
+    "Argument Clarity": 22,
+    "Logical Rigor": 21,
+    "Offense & Defense": 21,
+    "Overall Performance": 21
+  }},
+  "negative_breakdown": {{
+    "Argument Clarity": 21,
+    "Logical Rigor": 20,
+    "Offense & Defense": 21,
+    "Overall Performance": 20
+  }},
+  "winner": "Affirmative",
+  "comment": "Detailed commentary analyzing both sides' strengths and weaknesses..."
+}}
+
+Ensure the output is valid JSON — do not include markdown code block markers."""
+    else:
+        desc_section = f"\n\n角色设定：{description}" if description else ""
+        return f"""你是本场辩论赛的裁判兼主持人，负责进行专业评判。{desc_section}
 
 辩题：{topic}
 正方立场：{stance_pos}
@@ -632,6 +720,9 @@ def call_api(api_config: APIConfig, system_prompt: str, user_message: str) -> st
             return response.choices[0].message.content
             
     except Exception as e:
+        lang = st.session_state.get("lang", "zh")
+        if lang == "en":
+            return f"[Error] API call failed ({api_config.provider}): {str(e)}"
         return f"[错误] API 调用失败 ({api_config.provider}): {str(e)}"
 
 
@@ -644,8 +735,77 @@ def generate_markdown(
     timestamp: str
 ) -> str:
     """生成 markdown 格式的辩论记录"""
+    lang = st.session_state.get("lang", "zh")
+    dims = TL("dims")
     
-    md = f"""# 🏛️ AI 辩论赛记录
+    if lang == "en":
+        md = f"""# 🏛️ AI Debate Record
+
+---
+
+## 📋 Debate Info
+
+| Item | Details |
+|------|---------|
+| **Topic** | {topic} |
+| **Affirmative Stance** | {stance_pos} |
+| **Negative Stance** | {stance_neg} |
+| **Rounds** | {len(rounds)} |
+| **Time** | {timestamp} |
+
+---
+
+## 🎤 Debate Process
+
+"""
+        for i, (pos_speech, neg_speech) in enumerate(rounds, 1):
+            md += f"""### Round {i}
+
+#### 🟦 Affirmative Speech
+
+{pos_speech}
+
+#### 🟥 Negative Speech
+
+{neg_speech}
+
+---
+
+"""
+        pos_breakdown = result.get('positive_breakdown', {})
+        neg_breakdown = result.get('negative_breakdown', {})
+        
+        md += f"""## ⚖️ Judge Verdict
+
+### 📊 Scores
+
+| Side | {dims[0]} | {dims[1]} | {dims[2]} | {dims[3]} | **Total** |
+|------|-----------|-----------|---------|---------|---------|
+| 🟦 Affirmative | {pos_breakdown.get(dims[0], 0)}/25 | {pos_breakdown.get(dims[1], 0)}/25 | {pos_breakdown.get(dims[2], 0)}/25 | {pos_breakdown.get(dims[3], 0)}/25 | **{result.get('positive_score', 0)}** |
+| 🟥 Negative | {neg_breakdown.get(dims[0], 0)}/25 | {neg_breakdown.get(dims[1], 0)}/25 | {neg_breakdown.get(dims[2], 0)}/25 | {neg_breakdown.get(dims[3], 0)}/25 | **{result.get('negative_score', 0)}** |
+
+### 🏆 Winner
+
+<div align="center">
+
+## 🎉 {result.get('winner', 'TBD')} 🎉
+
+</div>
+
+### 📝 Detailed Commentary
+
+{result.get('comment', 'No commentary available')}
+
+---
+
+<div align="center">
+
+*This debate was auto-generated by the AI Agent system*
+
+</div>
+"""
+    else:
+        md = f"""# 🏛️ AI 辩论赛记录
 
 ---
 
@@ -664,9 +824,8 @@ def generate_markdown(
 ## 🎤 辩论过程
 
 """
-    
-    for i, (pos_speech, neg_speech) in enumerate(rounds, 1):
-        md += f"""### 第 {i} 回合
+        for i, (pos_speech, neg_speech) in enumerate(rounds, 1):
+            md += f"""### 第 {i} 回合
 
 #### 🟦 正方发言
 
@@ -679,18 +838,17 @@ def generate_markdown(
 ---
 
 """
-    
-    pos_breakdown = result.get('positive_breakdown', {})
-    neg_breakdown = result.get('negative_breakdown', {})
-    
-    md += f"""## ⚖️ 裁判判决
+        pos_breakdown = result.get('positive_breakdown', {})
+        neg_breakdown = result.get('negative_breakdown', {})
+        
+        md += f"""## ⚖️ 裁判判决
 
 ### 📊 得分情况
 
-| 辩方 | 论点清晰度 | 逻辑严密性 | 攻防能力 | 综合表现 | **总分** |
+| 辩方 | {dims[0]} | {dims[1]} | {dims[2]} | {dims[3]} | **总分** |
 |------|-----------|-----------|---------|---------|---------|
-| 🟦 正方 | {pos_breakdown.get('论点清晰度', 0)}/25 | {pos_breakdown.get('逻辑严密性', 0)}/25 | {pos_breakdown.get('攻防能力', 0)}/25 | {pos_breakdown.get('综合表现', 0)}/25 | **{result.get('positive_score', 0)}** |
-| 🟥 反方 | {neg_breakdown.get('论点清晰度', 0)}/25 | {neg_breakdown.get('逻辑严密性', 0)}/25 | {neg_breakdown.get('攻防能力', 0)}/25 | {neg_breakdown.get('综合表现', 0)}/25 | **{result.get('negative_score', 0)}** |
+| 🟦 正方 | {pos_breakdown.get(dims[0], 0)}/25 | {pos_breakdown.get(dims[1], 0)}/25 | {pos_breakdown.get(dims[2], 0)}/25 | {pos_breakdown.get(dims[3], 0)}/25 | **{result.get('positive_score', 0)}** |
+| 🟥 反方 | {neg_breakdown.get(dims[0], 0)}/25 | {neg_breakdown.get(dims[1], 0)}/25 | {neg_breakdown.get(dims[2], 0)}/25 | {neg_breakdown.get(dims[3], 0)}/25 | **{result.get('negative_score', 0)}** |
 
 ### 🏆 获胜方
 
@@ -951,6 +1109,7 @@ def main():
 
 def run_debate(topic, stance_pos, stance_neg, max_rounds, word_count, pos_api, neg_api, judge_api, pos_desc="", neg_desc="", judge_desc=""):
     """运行辩论"""
+    lang = st.session_state.get("lang", "zh")
     
     # 初始化状态存储
     if 'debate_rounds' not in st.session_state:
@@ -980,11 +1139,17 @@ def run_debate(topic, stance_pos, stance_neg, max_rounds, word_count, pos_api, n
             st.markdown(T("round_title", n=round_num))
         
         if round_num == 1:
-            pos_message = "请进行第一轮开篇立论发言。"
+            if lang == "en":
+                pos_message = "Please deliver your opening statement for Round 1."
+            else:
+                pos_message = "请进行第一轮开篇立论发言。"
         else:
             # 获取上一轮反方发言作为上下文
             prev_neg = st.session_state.debate_rounds[-1][1] if st.session_state.debate_rounds else ""
-            pos_message = f"请进行第{round_num}轮发言，反驳反方并强化己方观点。\n\n上一轮反方发言：\n{prev_neg}"
+            if lang == "en":
+                pos_message = f"Please deliver your Round {round_num} speech. Rebut the negative side and reinforce your arguments.\n\nPrevious round negative speech:\n{prev_neg}"
+            else:
+                pos_message = f"请进行第{round_num}轮发言，反驳反方并强化己方观点。\n\n上一轮反方发言：\n{prev_neg}"
         
         pos_provider_name = get_provider_name(pos_api.provider)
         with progress_placeholder:
@@ -1000,9 +1165,15 @@ def run_debate(topic, stance_pos, stance_neg, max_rounds, word_count, pos_api, n
         
         # 反方发言
         if round_num == 1:
-            neg_message = f"请进行第一轮发言，先反驳正方观点，再阐述己方立场。\n\n正方发言：\n{pos_speech}"
+            if lang == "en":
+                neg_message = f"Please deliver your Round 1 speech. First rebut the affirmative's points, then present your own stance.\n\nAffirmative speech:\n{pos_speech}"
+            else:
+                neg_message = f"请进行第一轮发言，先反驳正方观点，再阐述己方立场。\n\n正方发言：\n{pos_speech}"
         else:
-            neg_message = f"请进行第{round_num}轮发言，反驳正方并强化己方观点。\n\n上一轮正方发言：\n{pos_speech}"
+            if lang == "en":
+                neg_message = f"Please deliver your Round {round_num} speech. Rebut the affirmative side and reinforce your arguments.\n\nPrevious round affirmative speech:\n{pos_speech}"
+            else:
+                neg_message = f"请进行第{round_num}轮发言，反驳正方并强化己方观点。\n\n上一轮正方发言：\n{pos_speech}"
         
         neg_provider_name = get_provider_name(neg_api.provider)
         with progress_placeholder:
@@ -1028,9 +1199,15 @@ def run_debate(topic, stance_pos, stance_neg, max_rounds, word_count, pos_api, n
     # 构建完整的辩论记录给裁判
     debate_record = ""
     for i, (pos, neg) in enumerate(st.session_state.debate_rounds, 1):
-        debate_record += f"=== 第 {i} 回合 ===\n\n【正方】\n{pos}\n\n【反方】\n{neg}\n\n"
+        if lang == "en":
+            debate_record += f"=== Round {i} ===\n\n[Affirmative]\n{pos}\n\n[Negative]\n{neg}\n\n"
+        else:
+            debate_record += f"=== 第 {i} 回合 ===\n\n【正方】\n{pos}\n\n【反方】\n{neg}\n\n"
     
-    judge_message = f"请根据以下辩论记录进行评判，输出 JSON 格式结果：\n\n{debate_record}"
+    if lang == "en":
+        judge_message = f"Please judge the following debate record and output a JSON format result:\n\n{debate_record}"
+    else:
+        judge_message = f"请根据以下辩论记录进行评判，输出 JSON 格式结果：\n\n{debate_record}"
     
     judge_response = call_api(judge_api, judge_system, judge_message)
     
@@ -1049,7 +1226,7 @@ def run_debate(topic, stance_pos, stance_neg, max_rounds, word_count, pos_api, n
             "negative_score": 0,
             "positive_breakdown": {},
             "negative_breakdown": {},
-            "winner": "无法判定",
+            "winner": T("winner_tbd"),
             "comment": judge_response
         }
     
