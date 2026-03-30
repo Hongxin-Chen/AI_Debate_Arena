@@ -22,84 +22,98 @@ load_dotenv()
 AI_PROVIDERS = {
     "openai": {
         "name": "OpenAI（ChatGPT）",
+        "name_en": "OpenAI (ChatGPT)",
         "base_url": "https://api.openai.com/v1",
         "default_model": "gpt-4",
         "format": "openai"
     },
     "anthropic": {
         "name": "Anthropic（Claude）",
+        "name_en": "Anthropic (Claude)",
         "base_url": None,  # Anthropic SDK 不需要
         "default_model": "claude-3-opus-20240229",
         "format": "anthropic"
     },
     "gemini": {
         "name": "Google（Gemini）",
+        "name_en": "Google (Gemini)",
         "base_url": "https://generativelanguage.googleapis.com/v1beta",
         "default_model": "gemini-pro",
         "format": "google"
     },
     "kimi": {
         "name": "Kimi（月之暗面）",
+        "name_en": "Kimi (Moonshot)",
         "base_url": "https://api.moonshot.cn/v1",
         "default_model": "kimi-k2.5",
         "format": "openai"
     },
     "deepseek": {
         "name": "DeepSeek（深度求索）",
+        "name_en": "DeepSeek",
         "base_url": "https://api.deepseek.com/v1",
         "default_model": "deepseek-chat",
         "format": "openai"
     },
     "azure": {
         "name": "Azure OpenAI（微软云）",
-        "base_url": "",  # 需要用户填写
+        "name_en": "Azure OpenAI",
+        "base_url": "",
         "default_model": "gpt-4",
         "format": "azure"
     },
     "cohere": {
         "name": "Cohere（Command R）",
+        "name_en": "Cohere (Command R)",
         "base_url": "https://api.cohere.ai/v1",
         "default_model": "command-r-plus",
         "format": "cohere"
     },
     "groq": {
         "name": "Groq（超高速推理）",
+        "name_en": "Groq (Ultra-fast Inference)",
         "base_url": "https://api.groq.com/openai/v1",
         "default_model": "llama2-70b-4096",
         "format": "openai"
     },
     "ollama": {
         "name": "Ollama（本地部署）",
+        "name_en": "Ollama (Local)",
         "base_url": "http://localhost:11434/v1",
         "default_model": "llama2",
         "format": "openai"
     },
     "openrouter": {
         "name": "OpenRouter（多模型聚合）",
+        "name_en": "OpenRouter (Multi-model)",
         "base_url": "https://openrouter.ai/api/v1",
         "default_model": "anthropic/claude-3-opus",
         "format": "openai"
     },
     "siliconflow": {
         "name": "硅基流动（SiliconFlow）",
+        "name_en": "SiliconFlow",
         "base_url": "https://api.siliconflow.cn/v1",
         "default_model": "Qwen/Qwen2.5-72B-Instruct",
         "format": "openai"
     },
     "zhipu": {
         "name": "智谱 AI（GLM）",
+        "name_en": "Zhipu AI (GLM)",
         "base_url": "https://open.bigmodel.cn/api/paas/v4",
         "default_model": "glm-4",
         "format": "openai"
     },
     "baichuan": {
         "name": "百川智能（Baichuan）",
+        "name_en": "Baichuan AI",
         "base_url": "https://api.baichuan-ai.com/v1",
         "default_model": "Baichuan4",
         "format": "openai"
     },
     "custom": {
         "name": "自定义 (OpenAI 兼容)",
+        "name_en": "Custom (OpenAI Compatible)",
         "base_url": "",
         "default_model": "gpt-4",
         "format": "openai"
@@ -170,6 +184,238 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
+
+# ============== 国际化 i18n ==============
+I18N = {
+    "zh": {
+        # 页面
+        "main_header": "🏛️ AI 辩论赛",
+        "lang_label": "🌐 Language / 语言",
+        # 侧边栏
+        "api_config": "## ⚙️ API 配置",
+        "pos_agent": "正方 Agent",
+        "neg_agent": "反方 Agent",
+        "judge_agent": "裁判 Agent",
+        "provider_label": "API 提供商",
+        "api_key_label": "API Key",
+        "api_base_label": "API Base URL",
+        "model_label": "模型",
+        "format_label": "格式",
+        "help_azure_custom": "请输入你的 Azure Endpoint 或自定义 API URL",
+        "help_ollama": "默认使用本地地址，如使用远程请修改",
+        "help_default": "默认",
+        "help_sdk_auto": "SDK 自动处理",
+        # 主界面
+        "debate_setup": "### 📝 辩论设置",
+        "topic_label": "辩题",
+        "topic_placeholder": "例如：人工智能是否会取代人类工作",
+        "pos_stance_label": "正方立场",
+        "pos_stance_placeholder": "正方支持的观点",
+        "neg_stance_label": "反方立场",
+        "neg_stance_placeholder": "反方反对的观点",
+        "param_setup": "### 🔧 参数设置",
+        "rounds_label": "辩论回合数",
+        "word_count_label": "每轮发言字数",
+        # Agent 描述
+        "agent_desc_title": "🎭 Agent 角色描述（可自定义）",
+        "agent_desc_caption": "自定义三位 AI Agent 的角色和风格描述，会注入到系统提示词中影响辩论行为",
+        "pos_agent_desc_label": "🟦 正方 Agent",
+        "neg_agent_desc_label": "🟥 反方 Agent",
+        "judge_agent_desc_label": "⚖️ 裁判 Agent",
+        "pos_agent_desc_default": (
+            "你是一位经验丰富的正方辩手，性格坚定果断、充满自信。\n\n"
+            "【思维方式】善于从政治、经济、社会、技术、伦理等多维度构建完整的论证体系，"
+            "注重论点之间的逻辑递进和相互支撑，能够快速识别并利用对方论证中的逻辑漏洞。\n\n"
+            "【进攻风格】犀利而有层次，善于用反问、归谬法和类比推理瓦解对方观点，"
+            "每次反驳都紧扣对方核心论点，避免纠缠细枝末节。\n\n"
+            "【防守策略】面对对方质疑时从不回避，善于将对方的攻击转化为己方论证的资源，"
+            "能够灵活调整论证重心，在防守中寻找反击机会。\n\n"
+            "【语言风格】表达有力、措辞精准，善用数据和案例增强说服力，"
+            "语言节奏感强，关键论点掷地有声，具有较强的感染力和号召力。"
+        ),
+        "neg_agent_desc_default": (
+            "你是一位深思熟虑的反方辩手，性格沉稳冷静、思维缜密。\n\n"
+            "【思维方式】擅长逆向思维和批判性分析，善于从对方看似完美的论证中发现隐含的假设和逻辑跳跃，"
+            "注重从根本前提上质疑对方的论证基础。\n\n"
+            "【进攻风格】以精准打击见长，善于抓住对方论证的关键薄弱环节进行集中攻破，"
+            "常运用具体反例、统计数据和权威引用来拆解对方论点，攻击时直击要害、一针见血。\n\n"
+            "【防守策略】论据扎实有力，善于提前预判对方可能的攻击方向并做好准备，"
+            "面对质疑时能够从容应对，通过补充论据和细化论证来加固己方立场。\n\n"
+            "【语言风格】措辞严谨、逻辑清晰，偏好使用结构化的论证方式，"
+            "语言冷静有力，善于用对比和事实说话，以理服人而非以势压人。"
+        ),
+        "judge_agent_desc_default": (
+            "你是一位资深的辩论赛裁判兼主持人，以公正客观、专业严谨著称。\n\n"
+            "【评判原则】严格依据论点清晰度、逻辑严密性、攻防能力、综合表现四大维度进行评判，"
+            "对每个维度都有明确的评判标准和扣分依据，做到有理有据。\n\n"
+            "【分析能力】目光敏锐，善于捕捉双方辩论中的关键转折点和胜负手，"
+            "能够准确识别哪些论点被有效反驳、哪些攻击真正动摇了对方立场，"
+            "不被华丽的修辞所迷惑，只关注论证的实质质量。\n\n"
+            "【评语风格】评语专业中肯、详略得当，先总后分地呈现评判结果，"
+            "对双方的优点给予充分肯定，对不足之处给出建设性的点评，"
+            "最终判决有充分的理由支撑，令双方信服。\n\n"
+            "【公正性】不因某方语言更华丽或气势更强就偏袒，"
+            "重点关注论证逻辑的完整性和反驳的有效性，确保评判结果经得起推敲。"
+        ),
+        # 验证与按钮
+        "config_warning": "⚠️ 请填写完整的辩论信息和 API 配置（侧边栏）",
+        "start_button": "🚀 开始辩论",
+        # 辩论过程
+        "debate_process": "🎤 辩论过程",
+        "round_progress": "⏳ 正在进行第 {current}/{total} 回合...",
+        "round_title": "### 第 {n} 回合",
+        "pos_thinking": "🟦 正方 [{provider}] 正在思考... (第 {n} 回合)",
+        "neg_thinking": "🟥 反方 [{provider}] 正在思考... (第 {n} 回合)",
+        "pos_speech_label": "**🟦 正方发言**",
+        "neg_speech_label": "**🟥 反方发言**",
+        "judge_thinking": "⚖️ 裁判 [{provider}] 正在评判...",
+        # 裁判结果
+        "judge_verdict": "⚖️ 裁判判决",
+        "judge_ai_label": "裁判 AI",
+        "score_title": "### 📊 得分情况",
+        "pos_total_score": "🟦 正方总分",
+        "neg_total_score": "🟥 反方总分",
+        "dim_col": "维度",
+        "pos_col": "正方",
+        "neg_col": "反方",
+        "dims": ["论点清晰度", "逻辑严密性", "攻防能力", "综合表现"],
+        "winner_title": "### 🏆 获胜方",
+        "winner_tbd": "待定",
+        "comment_title": "### 📝 详细评语",
+        "no_comment": "暂无评语",
+        # 完成
+        "debate_done": "✅ 辩论结束！",
+        "download_label": "📥 下载辩论记录 (Markdown)",
+    },
+    "en": {
+        # Page
+        "main_header": "🏛️ AI Debate Arena",
+        "lang_label": "🌐 Language / 语言",
+        # Sidebar
+        "api_config": "## ⚙️ API Config",
+        "pos_agent": "Affirmative Agent",
+        "neg_agent": "Negative Agent",
+        "judge_agent": "Judge Agent",
+        "provider_label": "API Provider",
+        "api_key_label": "API Key",
+        "api_base_label": "API Base URL",
+        "model_label": "Model",
+        "format_label": "Format",
+        "help_azure_custom": "Enter your Azure Endpoint or custom API URL",
+        "help_ollama": "Default local address; change for remote",
+        "help_default": "Default",
+        "help_sdk_auto": "SDK auto-handled",
+        # Main
+        "debate_setup": "### 📝 Debate Setup",
+        "topic_label": "Topic",
+        "topic_placeholder": "e.g. Will AI replace human jobs?",
+        "pos_stance_label": "Affirmative Stance",
+        "pos_stance_placeholder": "The viewpoint the affirmative side supports",
+        "neg_stance_label": "Negative Stance",
+        "neg_stance_placeholder": "The viewpoint the negative side supports",
+        "param_setup": "### 🔧 Parameters",
+        "rounds_label": "Debate Rounds",
+        "word_count_label": "Words per Speech",
+        # Agent descriptions
+        "agent_desc_title": "🎭 Agent Role Descriptions (Customizable)",
+        "agent_desc_caption": "Customize the role and style of each AI Agent — injected into system prompts to shape debate behavior",
+        "pos_agent_desc_label": "🟦 Affirmative Agent",
+        "neg_agent_desc_label": "🟥 Negative Agent",
+        "judge_agent_desc_label": "⚖️ Judge Agent",
+        "pos_agent_desc_default": (
+            "You are an experienced affirmative debater — firm, decisive, and confident.\n\n"
+            "[Thinking Style] Skilled at building comprehensive arguments from political, economic, social, "
+            "technological, and ethical perspectives, with strong logical progression between points. "
+            "Quick to identify and exploit logical gaps in the opponent's reasoning.\n\n"
+            "[Attack Style] Sharp and layered — adept at using rhetorical questions, reductio ad absurdum, "
+            "and analogies to dismantle opposing views. Every rebuttal targets core arguments, avoiding tangents.\n\n"
+            "[Defense Strategy] Never evades challenges. Transforms the opponent's attacks into resources "
+            "for your own argument. Flexibly shifts emphasis to find counter-attack opportunities while defending.\n\n"
+            "[Language Style] Powerful and precise. Leverages data and case studies for persuasion. "
+            "Strong rhetorical rhythm — key points land with impact and conviction."
+        ),
+        "neg_agent_desc_default": (
+            "You are a thoughtful negative debater — calm, composed, and meticulous.\n\n"
+            "[Thinking Style] Excels at reverse thinking and critical analysis. Skilled at uncovering hidden "
+            "assumptions and logical leaps in seemingly flawless arguments. "
+            "Focuses on challenging the fundamental premises of the opponent's case.\n\n"
+            "[Attack Style] Precision-oriented. Targets the weakest links in the opponent's argument chain. "
+            "Frequently deploys concrete counterexamples, statistics, and authoritative citations. "
+            "Strikes are surgical and hit the mark.\n\n"
+            "[Defense Strategy] Arguments are solidly grounded. Anticipates potential attacks and prepares accordingly. "
+            "Responds to challenges with composure, reinforcing positions by adding evidence and refining logic.\n\n"
+            "[Language Style] Rigorous and clear. Prefers structured argumentation. "
+            "Cool and powerful — persuades with contrasts and facts rather than bluster."
+        ),
+        "judge_agent_desc_default": (
+            "You are a senior debate judge and moderator, known for fairness and professionalism.\n\n"
+            "[Judging Principles] Strictly evaluates based on four dimensions: argument clarity, logical rigor, "
+            "offense/defense ability, and overall performance. Each dimension has clear criteria and deduction standards.\n\n"
+            "[Analytical Ability] Sharp-eyed — captures key turning points and decisive moments in the debate. "
+            "Accurately identifies which arguments were effectively rebutted and which attacks truly shook the opponent's stance. "
+            "Not swayed by eloquent rhetoric — focuses only on substantive argument quality.\n\n"
+            "[Commentary Style] Professional and balanced. Presents results from general to specific. "
+            "Fully acknowledges strengths of both sides while offering constructive criticism on weaknesses. "
+            "Final verdicts are well-supported and convincing to both parties.\n\n"
+            "[Impartiality] Does not favor a side for more eloquent language or stronger presence. "
+            "Focuses on logical completeness and rebuttal effectiveness. Ensures the verdict withstands scrutiny."
+        ),
+        # Validation & buttons
+        "config_warning": "⚠️ Please fill in all debate info and API config (sidebar)",
+        "start_button": "🚀 Start Debate",
+        # Debate process
+        "debate_process": "🎤 Debate Process",
+        "round_progress": "⏳ Round {current}/{total} in progress...",
+        "round_title": "### Round {n}",
+        "pos_thinking": "🟦 Affirmative [{provider}] is thinking... (Round {n})",
+        "neg_thinking": "🟥 Negative [{provider}] is thinking... (Round {n})",
+        "pos_speech_label": "**🟦 Affirmative Speech**",
+        "neg_speech_label": "**🟥 Negative Speech**",
+        "judge_thinking": "⚖️ Judge [{provider}] is evaluating...",
+        # Judge results
+        "judge_verdict": "⚖️ Judge Verdict",
+        "judge_ai_label": "Judge AI",
+        "score_title": "### 📊 Scores",
+        "pos_total_score": "🟦 Affirmative Total",
+        "neg_total_score": "🟥 Negative Total",
+        "dim_col": "Dimension",
+        "pos_col": "Affirmative",
+        "neg_col": "Negative",
+        "dims": ["论点清晰度", "逻辑严密性", "攻防能力", "综合表现"],
+        "winner_title": "### 🏆 Winner",
+        "winner_tbd": "TBD",
+        "comment_title": "### 📝 Detailed Commentary",
+        "no_comment": "No commentary available",
+        # Done
+        "debate_done": "✅ Debate finished!",
+        "download_label": "📥 Download Debate Record (Markdown)",
+    }
+}
+
+
+def T(key: str, **kwargs) -> str:
+    """获取当前语言的翻译文本"""
+    lang = st.session_state.get("lang", "zh")
+    text = I18N.get(lang, I18N["zh"]).get(key, I18N["zh"].get(key, key))
+    if kwargs:
+        text = text.format(**kwargs)
+    return text
+
+
+def TL(key: str) -> list:
+    """获取当前语言的翻译列表"""
+    lang = st.session_state.get("lang", "zh")
+    return I18N.get(lang, I18N["zh"]).get(key, I18N["zh"].get(key, []))
+
+
+def get_provider_name(provider_key: str) -> str:
+    """根据当前语言获取供应商显示名称"""
+    lang = st.session_state.get("lang", "zh")
+    info = AI_PROVIDERS.get(provider_key, {})
+    if lang == "en":
+        return info.get("name_en", info.get("name", provider_key))
+    return info.get("name", provider_key)
 
 
 @dataclass
@@ -477,7 +723,7 @@ def render_agent_config(agent_name: str, agent_color: str, env_prefix: str, key_
     
     # API 提供商选择
     provider_options = list(AI_PROVIDERS.keys())
-    provider_labels = [AI_PROVIDERS[p]["name"] for p in provider_options]
+    provider_labels = [get_provider_name(p) for p in provider_options]
     
     # 创建映射
     provider_map = dict(zip(provider_labels, provider_options))
@@ -487,7 +733,7 @@ def render_agent_config(agent_name: str, agent_color: str, env_prefix: str, key_
     default_index = provider_options.index(default_provider) if default_provider in provider_options else 0
     
     selected_label = st.sidebar.selectbox(
-        f"{agent_name} API 提供商",
+        f"{agent_name} {T('provider_label')}",
         options=provider_labels,
         index=default_index,
         key=f"{key_prefix}_provider_label"
@@ -520,11 +766,11 @@ def render_agent_config(agent_name: str, agent_color: str, env_prefix: str, key_
             st.session_state[model_text_key] = provider_info.get("default_model", "gpt-4")
     
     # 显示提供商说明
-    st.sidebar.caption(f"格式: {provider_info['format']}")
+    st.sidebar.caption(f"{T('format_label')}: {provider_info['format']}")
     
     # API Key
     api_key = st.sidebar.text_input(
-        f"{agent_name} API Key",
+        f"{agent_name} {T('api_key_label')}",
         value=os.getenv(f"{env_prefix}_API_KEY", ""),
         type="password",
         key=f"{key_prefix}_api_key"
@@ -532,14 +778,14 @@ def render_agent_config(agent_name: str, agent_color: str, env_prefix: str, key_
     
     # API Base URL（由 session_state 管理，供应商变更时自动更新）
     if provider in ["azure", "custom"]:
-        help_text = "请输入你的 Azure Endpoint 或自定义 API URL"
+        help_text = T("help_azure_custom")
     elif provider == "ollama":
-        help_text = "默认使用本地地址，如使用远程请修改"
+        help_text = T("help_ollama")
     else:
-        help_text = f"默认: {provider_info.get('base_url', 'SDK 自动处理')}"
+        help_text = f"{T('help_default')}: {provider_info.get('base_url', T('help_sdk_auto'))}"
     
     api_base = st.sidebar.text_input(
-        f"{agent_name} API Base URL",
+        f"{agent_name} {T('api_base_label')}",
         help=help_text,
         key=api_base_key
     )
@@ -550,29 +796,29 @@ def render_agent_config(agent_name: str, agent_color: str, env_prefix: str, key_
     # 对于一些常见提供商，提供模型选择建议
     if provider == "kimi":
         model_options = ["kimi-k2.5", "moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"]
-        model = st.sidebar.selectbox(f"{agent_name} 模型", model_options, 
+        model = st.sidebar.selectbox(f"{agent_name} {T('model_label')}", model_options, 
                                      index=model_options.index(default_model) if default_model in model_options else 0,
                                      key=model_select_key)
     elif provider == "deepseek":
         model_options = ["deepseek-chat", "deepseek-coder"]
-        model = st.sidebar.selectbox(f"{agent_name} 模型", model_options,
+        model = st.sidebar.selectbox(f"{agent_name} {T('model_label')}", model_options,
                                      index=model_options.index(default_model) if default_model in model_options else 0,
                                      key=model_select_key)
     elif provider == "gemini":
         model_options = ["gemini-pro", "gemini-pro-vision", "gemini-1.5-pro"]
-        model = st.sidebar.selectbox(f"{agent_name} 模型", model_options,
+        model = st.sidebar.selectbox(f"{agent_name} {T('model_label')}", model_options,
                                      index=model_options.index(default_model) if default_model in model_options else 0,
                                      key=model_select_key)
     elif provider == "groq":
         model_options = ["llama2-70b-4096", "mixtral-8x7b-32768", "gemma-7b-it"]
-        model = st.sidebar.selectbox(f"{agent_name} 模型", model_options,
+        model = st.sidebar.selectbox(f"{agent_name} {T('model_label')}", model_options,
                                      index=model_options.index(default_model) if default_model in model_options else 0,
                                      key=model_select_key)
     else:
         if model_text_key not in st.session_state:
             st.session_state[model_text_key] = default_model
         model = st.sidebar.text_input(
-            f"{agent_name} 模型",
+            f"{agent_name} {T('model_label')}",
             key=model_text_key
         )
     
@@ -589,17 +835,40 @@ def render_agent_config(agent_name: str, agent_color: str, env_prefix: str, key_
 
 def sidebar_config():
     """侧边栏配置"""
-    st.sidebar.markdown("## ⚙️ API 配置")
+    # 语言切换
+    lang_options = {"中文": "zh", "English": "en"}
+    selected_lang_label = st.sidebar.selectbox(
+        T("lang_label"),
+        options=list(lang_options.keys()),
+        index=0 if st.session_state.get("lang", "zh") == "zh" else 1,
+        key="_lang_select"
+    )
+    new_lang = lang_options[selected_lang_label]
+    if st.session_state.get("lang", "zh") != new_lang:
+        st.session_state["lang"] = new_lang
+        # 语言切换时用新语言的默认值覆盖 agent 描述
+        new_i18n = I18N[new_lang]
+        st.session_state["pos_agent_desc"] = new_i18n["pos_agent_desc_default"]
+        st.session_state["neg_agent_desc"] = new_i18n["neg_agent_desc_default"]
+        st.session_state["judge_agent_desc"] = new_i18n["judge_agent_desc_default"]
+        # 重置供应商下拉以刷新名称
+        for k in ["pos_provider_label", "neg_provider_label", "judge_provider_label"]:
+            if k in st.session_state:
+                del st.session_state[k]
+        st.rerun()
+
+    st.sidebar.markdown("---")
+    st.sidebar.markdown(T("api_config"))
     st.sidebar.markdown("---")
     
     # 正方配置
-    pos_config = render_agent_config("正方 Agent", "🟦", "POSITIVE", "pos")
+    pos_config = render_agent_config(T("pos_agent"), "🟦", "POSITIVE", "pos")
     
     # 反方配置
-    neg_config = render_agent_config("反方 Agent", "🟥", "NEGATIVE", "neg")
+    neg_config = render_agent_config(T("neg_agent"), "🟥", "NEGATIVE", "neg")
     
     # 裁判配置
-    judge_config = render_agent_config("裁判 Agent", "⚖️", "JUDGE", "judge")
+    judge_config = render_agent_config(T("judge_agent"), "⚖️", "JUDGE", "judge")
     
     return pos_config, neg_config, judge_config
 
@@ -607,8 +876,12 @@ def sidebar_config():
 
 def main():
     """主函数"""
+    # 初始化语言
+    if "lang" not in st.session_state:
+        st.session_state["lang"] = "zh"
+
     # 标题
-    st.markdown('<div class="main-header">🏛️ AI 辩论赛</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="main-header">{T("main_header")}</div>', unsafe_allow_html=True)
     st.markdown("---")
     
     # 侧边栏配置
@@ -618,70 +891,44 @@ def main():
     col1, col2 = st.columns([2, 1])
     
     with col1:
-        st.markdown("### 📝 辩论设置")
-        topic = st.text_input("辩题", placeholder="例如：人工智能是否会取代人类工作")
+        st.markdown(T("debate_setup"))
+        topic = st.text_input(T("topic_label"), placeholder=T("topic_placeholder"))
         
         col_pos, col_neg = st.columns(2)
         with col_pos:
-            stance_positive = st.text_area("正方立场", placeholder="正方支持的观点", height=100)
+            stance_positive = st.text_area(T("pos_stance_label"), placeholder=T("pos_stance_placeholder"), height=100)
         with col_neg:
-            stance_negative = st.text_area("反方立场", placeholder="反方反对的观点", height=100)
+            stance_negative = st.text_area(T("neg_stance_label"), placeholder=T("neg_stance_placeholder"), height=100)
     
     with col2:
-        st.markdown("### 🔧 参数设置")
-        max_rounds = st.slider("辩论回合数", min_value=1, max_value=5, value=3)
-        word_count = st.slider("每轮发言字数", min_value=200, max_value=1000, value=500, step=50)
+        st.markdown(T("param_setup"))
+        max_rounds = st.slider(T("rounds_label"), min_value=1, max_value=5, value=3)
+        word_count = st.slider(T("word_count_label"), min_value=200, max_value=1000, value=500, step=50)
         
     
     # Agent 角色描述设置
     st.markdown("---")
-    with st.expander("🎭 Agent 角色描述（可自定义）", expanded=False):
-        st.caption("自定义三位 AI Agent 的角色和风格描述，会注入到系统提示词中影响辩论行为")
+    with st.expander(T("agent_desc_title"), expanded=False):
+        st.caption(T("agent_desc_caption"))
         col_desc1, col_desc2, col_desc3 = st.columns(3)
         with col_desc1:
             pos_desc = st.text_area(
-                "🟦 正方 Agent",
-                value="你是一位经验丰富的正方辩手，性格坚定果断、充满自信。\n\n"
-                      "【思维方式】善于从政治、经济、社会、技术、伦理等多维度构建完整的论证体系，"
-                      "注重论点之间的逻辑递进和相互支撑，能够快速识别并利用对方论证中的逻辑漏洞。\n\n"
-                      "【进攻风格】犀利而有层次，善于用反问、归谬法和类比推理瓦解对方观点，"
-                      "每次反驳都紧扣对方核心论点，避免纠缠细枝末节。\n\n"
-                      "【防守策略】面对对方质疑时从不回避，善于将对方的攻击转化为己方论证的资源，"
-                      "能够灵活调整论证重心，在防守中寻找反击机会。\n\n"
-                      "【语言风格】表达有力、措辞精准，善用数据和案例增强说服力，"
-                      "语言节奏感强，关键论点掷地有声，具有较强的感染力和号召力。",
+                T("pos_agent_desc_label"),
+                value=T("pos_agent_desc_default"),
                 height=300,
                 key="pos_agent_desc"
             )
         with col_desc2:
             neg_desc = st.text_area(
-                "🟥 反方 Agent",
-                value="你是一位深思熟虑的反方辩手，性格沉稳冷静、思维缜密。\n\n"
-                      "【思维方式】擅长逆向思维和批判性分析，善于从对方看似完美的论证中发现隐含的假设和逻辑跳跃，"
-                      "注重从根本前提上质疑对方的论证基础。\n\n"
-                      "【进攻风格】以精准打击见长，善于抓住对方论证的关键薄弱环节进行集中攻破，"
-                      "常运用具体反例、统计数据和权威引用来拆解对方论点，攻击时直击要害、一针见血。\n\n"
-                      "【防守策略】论据扎实有力，善于提前预判对方可能的攻击方向并做好准备，"
-                      "面对质疑时能够从容应对，通过补充论据和细化论证来加固己方立场。\n\n"
-                      "【语言风格】措辞严谨、逻辑清晰，偏好使用结构化的论证方式，"
-                      "语言冷静有力，善于用对比和事实说话，以理服人而非以势压人。",
+                T("neg_agent_desc_label"),
+                value=T("neg_agent_desc_default"),
                 height=300,
                 key="neg_agent_desc"
             )
         with col_desc3:
             judge_desc = st.text_area(
-                "⚖️ 裁判 Agent",
-                value="你是一位资深的辩论赛裁判兼主持人，以公正客观、专业严谨著称。\n\n"
-                      "【评判原则】严格依据论点清晰度、逻辑严密性、攻防能力、综合表现四大维度进行评判，"
-                      "对每个维度都有明确的评判标准和扣分依据，做到有理有据。\n\n"
-                      "【分析能力】目光敏锐，善于捕捉双方辩论中的关键转折点和胜负手，"
-                      "能够准确识别哪些论点被有效反驳、哪些攻击真正动摇了对方立场，"
-                      "不被华丽的修辞所迷惑，只关注论证的实质质量。\n\n"
-                      "【评语风格】评语专业中肯、详略得当，先总后分地呈现评判结果，"
-                      "对双方的优点给予充分肯定，对不足之处给出建设性的点评，"
-                      "最终判决有充分的理由支撑，令双方信服。\n\n"
-                      "【公正性】不因某方语言更华丽或气势更强就偏袒，"
-                      "重点关注论证逻辑的完整性和反驳的有效性，确保评判结果经得起推敲。",
+                T("judge_agent_desc_label"),
+                value=T("judge_agent_desc_default"),
                 height=300,
                 key="judge_agent_desc"
             )
@@ -693,12 +940,12 @@ def main():
     ])
     
     if not config_valid:
-        st.warning("⚠️ 请填写完整的辩论信息和 API 配置（侧边栏）")
+        st.warning(T("config_warning"))
         return
     
     # 开始辩论按钮
     st.markdown("---")
-    if st.button("🚀 开始辩论", type="primary", use_container_width=True):
+    if st.button(T("start_button"), type="primary", use_container_width=True):
         run_debate(topic, stance_positive, stance_negative, max_rounds, word_count, pos_api, neg_api, judge_api, pos_desc, neg_desc, judge_desc)
 
 
@@ -721,16 +968,16 @@ def run_debate(topic, stance_pos, stance_neg, max_rounds, word_count, pos_api, n
     debate_area = st.container()
     
     with debate_area:
-        st.markdown('<div class="sub-header">🎤 辩论过程</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="sub-header">{T("debate_process")}</div>', unsafe_allow_html=True)
     
     # 进行辩论回合
     for round_num in range(1, max_rounds + 1):
         with progress_placeholder:
-            st.info(f"⏳ 正在进行第 {round_num}/{max_rounds} 回合...")
+            st.info(T("round_progress", current=round_num, total=max_rounds))
         
         # 正方发言
         with debate_area:
-            st.markdown(f"### 第 {round_num} 回合")
+            st.markdown(T("round_title", n=round_num))
         
         if round_num == 1:
             pos_message = "请进行第一轮开篇立论发言。"
@@ -739,14 +986,15 @@ def run_debate(topic, stance_pos, stance_neg, max_rounds, word_count, pos_api, n
             prev_neg = st.session_state.debate_rounds[-1][1] if st.session_state.debate_rounds else ""
             pos_message = f"请进行第{round_num}轮发言，反驳反方并强化己方观点。\n\n上一轮反方发言：\n{prev_neg}"
         
+        pos_provider_name = get_provider_name(pos_api.provider)
         with progress_placeholder:
-            st.info(f"🟦 正方 [{AI_PROVIDERS.get(pos_api.provider, {}).get('name', pos_api.provider)}] 正在思考... (第 {round_num} 回合)")
+            st.info(T("pos_thinking", provider=pos_provider_name, n=round_num))
         
         pos_speech = call_api(pos_api, pos_system, pos_message)
         
         with debate_area:
             st.markdown('<div class="positive-box">', unsafe_allow_html=True)
-            st.markdown(f"**🟦 正方发言** *({AI_PROVIDERS.get(pos_api.provider, {}).get('name', pos_api.provider)} - {pos_api.model})*")
+            st.markdown(f"{T('pos_speech_label')} *({pos_provider_name} - {pos_api.model})*")
             st.markdown(pos_speech)
             st.markdown('</div>', unsafe_allow_html=True)
         
@@ -756,14 +1004,15 @@ def run_debate(topic, stance_pos, stance_neg, max_rounds, word_count, pos_api, n
         else:
             neg_message = f"请进行第{round_num}轮发言，反驳正方并强化己方观点。\n\n上一轮正方发言：\n{pos_speech}"
         
+        neg_provider_name = get_provider_name(neg_api.provider)
         with progress_placeholder:
-            st.info(f"🟥 反方 [{AI_PROVIDERS.get(neg_api.provider, {}).get('name', neg_api.provider)}] 正在思考... (第 {round_num} 回合)")
+            st.info(T("neg_thinking", provider=neg_provider_name, n=round_num))
         
         neg_speech = call_api(neg_api, neg_system, neg_message)
         
         with debate_area:
             st.markdown('<div class="negative-box">', unsafe_allow_html=True)
-            st.markdown(f"**🟥 反方发言** *({AI_PROVIDERS.get(neg_api.provider, {}).get('name', neg_api.provider)} - {neg_api.model})*")
+            st.markdown(f"{T('neg_speech_label')} *({neg_provider_name} - {neg_api.model})*")
             st.markdown(neg_speech)
             st.markdown('</div>', unsafe_allow_html=True)
             st.markdown("---")
@@ -772,8 +1021,9 @@ def run_debate(topic, stance_pos, stance_neg, max_rounds, word_count, pos_api, n
         st.session_state.debate_rounds.append((pos_speech, neg_speech))
     
     # 裁判评判
+    judge_provider_name = get_provider_name(judge_api.provider)
     with progress_placeholder:
-        st.info(f"⚖️ 裁判 [{AI_PROVIDERS.get(judge_api.provider, {}).get('name', judge_api.provider)}] 正在评判...")
+        st.info(T("judge_thinking", provider=judge_provider_name))
     
     # 构建完整的辩论记录给裁判
     debate_record = ""
@@ -805,51 +1055,46 @@ def run_debate(topic, stance_pos, stance_neg, max_rounds, word_count, pos_api, n
     
     # 显示裁判结果
     with debate_area:
-        st.markdown('<div class="sub-header">⚖️ 裁判判决</div>', unsafe_allow_html=True)
-        st.caption(f"裁判 AI: {AI_PROVIDERS.get(judge_api.provider, {}).get('name', judge_api.provider)} - {judge_api.model}")
+        st.markdown(f'<div class="sub-header">{T("judge_verdict")}</div>', unsafe_allow_html=True)
+        st.caption(f"{T('judge_ai_label')}: {judge_provider_name} - {judge_api.model}")
         
         # 得分表格
-        st.markdown("### 📊 得分情况")
+        st.markdown(T("score_title"))
         
         col1, col2 = st.columns(2)
         
         with col1:
-            st.metric("🟦 正方总分", judge_result.get("positive_score", 0))
+            st.metric(T("pos_total_score"), judge_result.get("positive_score", 0))
         with col2:
-            st.metric("🟥 反方总分", judge_result.get("negative_score", 0))
+            st.metric(T("neg_total_score"), judge_result.get("negative_score", 0))
         
-        # 详细得分
+        # 详细得分 — dims 键名始终为中文（与 judge prompt 对齐）
+        dims = TL("dims")
         score_data = {
-            "维度": ["论点清晰度", "逻辑严密性", "攻防能力", "综合表现"],
-            "正方": [
-                judge_result.get("positive_breakdown", {}).get("论点清晰度", 0),
-                judge_result.get("positive_breakdown", {}).get("逻辑严密性", 0),
-                judge_result.get("positive_breakdown", {}).get("攻防能力", 0),
-                judge_result.get("positive_breakdown", {}).get("综合表现", 0)
+            T("dim_col"): dims,
+            T("pos_col"): [
+                judge_result.get("positive_breakdown", {}).get(d, 0) for d in dims
             ],
-            "反方": [
-                judge_result.get("negative_breakdown", {}).get("论点清晰度", 0),
-                judge_result.get("negative_breakdown", {}).get("逻辑严密性", 0),
-                judge_result.get("negative_breakdown", {}).get("攻防能力", 0),
-                judge_result.get("negative_breakdown", {}).get("综合表现", 0)
+            T("neg_col"): [
+                judge_result.get("negative_breakdown", {}).get(d, 0) for d in dims
             ]
         }
         
         st.dataframe(score_data, use_container_width=True, hide_index=True)
         
         # 获胜方
-        st.markdown("### 🏆 获胜方")
-        st.markdown(f'<div class="winner-text">🎉 {judge_result.get("winner", "待定")} 🎉</div>', unsafe_allow_html=True)
+        st.markdown(T("winner_title"))
+        st.markdown(f'<div class="winner-text">🎉 {judge_result.get("winner", T("winner_tbd"))} 🎉</div>', unsafe_allow_html=True)
         
         # 详细评语
         st.markdown('<div class="judge-box">', unsafe_allow_html=True)
-        st.markdown("### 📝 详细评语")
-        st.markdown(judge_result.get("comment", "暂无评语"))
+        st.markdown(T("comment_title"))
+        st.markdown(judge_result.get("comment", T("no_comment")))
         st.markdown('</div>', unsafe_allow_html=True)
     
     # 清除进度提示
     progress_placeholder.empty()
-    st.success("✅ 辩论结束！")
+    st.success(T("debate_done"))
     
     # 生成并下载 Markdown
     timestamp = datetime.now().strftime("%Y年%m月%d日 %H:%M")
@@ -864,7 +1109,7 @@ def run_debate(topic, stance_pos, stance_neg, max_rounds, word_count, pos_api, n
     filename = f"debate_{safe_topic}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
     
     st.download_button(
-        label="📥 下载辩论记录 (Markdown)",
+        label=T("download_label"),
         data=md_content,
         file_name=filename,
         mime="text/markdown",
